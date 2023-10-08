@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>以Notion为基础的自我管理体系 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="我常用Todoist 管理自己的任务，用印象笔记存放感兴趣的文本和自己觉得需要保存的文本。 后来因为Notion的数据库特质吸引到我。所以整合之前的项目管理、任务管理和笔记文本管理在Notion之中。 Notion的缺点在于过于自由，需要加一个框架来使之符合项目管理、任务管理、文本笔记管理的功能。 使用前后端分离的方式，将整个Notion空间分为View和Model，用一些自定义的数据库来组织不同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="以Notion为基础的自我管理体系">
+<meta property="og:url" content="http://example.com/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我常用Todoist 管理自己的任务，用印象笔记存放感兴趣的文本和自己觉得需要保存的文本。 后来因为Notion的数据库特质吸引到我。所以整合之前的项目管理、任务管理和笔记文本管理在Notion之中。 Notion的缺点在于过于自由，需要加一个框架来使之符合项目管理、任务管理、文本笔记管理的功能。 使用前后端分离的方式，将整个Notion空间分为View和Model，用一些自定义的数据库来组织不同">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/1260.png">
+<meta property="og:image" content="http://example.com/images/1261.png">
+<meta property="og:image" content="http://example.com/images/1262.png">
+<meta property="og:image" content="http://example.com/images/1263.png">
+<meta property="og:image" content="http://example.com/images/1264.png">
+<meta property="og:image" content="http://example.com/images/1265.png">
+<meta property="og:image" content="http://example.com/images/1266.png">
+<meta property="og:image" content="http://example.com/images/1267.png">
+<meta property="article:published_time" content="2020-11-23T11:35:15.000Z">
+<meta property="article:modified_time" content="2020-11-28T16:23:36.850Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="个人">
+<meta property="article:tag" content="知识管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/1260.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-以Notion为基础的自我管理体系" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/" class="article-date">
+  <time class="dt-published" datetime="2020-11-23T11:35:15.000Z" itemprop="datePublished">2020-11-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      以Notion为基础的自我管理体系
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>我常用<a target="_blank" rel="noopener" href="https://www.notion.so/imchenmin/Todoist-7dc5a0cd012e41a6b2cfef696e869a00">Todoist</a> 管理自己的任务，用<a target="_blank" rel="noopener" href="https://www.notion.so/imchenmin/175adc9e20194d2b97062999b44255bb">印象笔记</a>存放感兴趣的文本和自己觉得需要保存的文本。</p>
+<p>后来因为Notion的数据库特质吸引到我。所以整合之前的项目管理、任务管理和笔记文本管理在Notion之中。</p>
+<p>Notion的缺点在于过于自由，需要加一个框架来使之符合项目管理、任务管理、文本笔记管理的功能。</p>
+<p>使用前后端分离的方式，将整个Notion空间分为View和Model，用一些自定义的数据库来组织不同类型的数据，位于根目录Resources之下。</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><p>Resource</p>
+<ul>
+<li><p>Notes（笔记）</p>
+<p><img src="/images/1260.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-021.01.51.png"> </p>
+</li>
+<li><p>Book（书籍）</p>
+<p><img src="/images/1261.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-025.05.59.png"> </p>
+</li>
+<li><p>Video（想看的，看过的视频）</p>
+<p><img src="/images/1262.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-025.08.20.png"> </p>
+</li>
+<li><p>People（人脉）</p>
+</li>
+<li><p>Thing（事情，分为Task和Calendar）</p>
+<p><img src="/images/1263.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-025.09.09.png"> </p>
+</li>
+<li><p>Tag（标签）</p>
+<p><img src="/images/1264.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-026.28.14.png"> </p>
+</li>
+<li><p>Subscription（订阅服务）</p>
+<p><img src="/images/1265.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-026.29.41.png"> </p>
+</li>
+<li><p>Project（基于项目的自我管理），与Things、note联系。</p>
+<p><img src="/images/1266.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-029.09.57.png"></p>
+</li>
+</ul>
+<h2 id="Dashboard"><a href="#Dashboard" class="headerlink" title="Dashboard"></a>Dashboard</h2><p>主要通过Dashboard这一个页面来管理自己当天的任务、任务收件箱和笔记。</p>
+<p><img src="/images/1267.png" alt="Notion%2059beed18f91a433abd3b3c79042c9eb7/2020-07-026.35.02.png"> </p>
+<h2 id="善用过滤器和视图类型"><a href="#善用过滤器和视图类型" class="headerlink" title="善用过滤器和视图类型"></a>善用过滤器和视图类型</h2><p>数据库可以自选多种视图类型，如列表，日历，卡片，表格等。并且可以使用过滤功能。但是一个视图只能有一个过滤器。通过复制视图可以达到快速创建相同类型的视图和不同的过滤功能。</p>
+<h2 id="适用情况与不适用情况"><a href="#适用情况与不适用情况" class="headerlink" title="适用情况与不适用情况"></a>适用情况与不适用情况</h2><p>Notion到目前为止都不能避免的两个大山：</p>
+<ol>
+<li><p>GFW</p>
+</li>
+<li><p>Web App</p>
+</li>
+</ol>
+<p>第一点导致很难让其他人访问，导致作为团队共享或者公开访问需要较大的门槛。</p>
+<p>Notion到现在为止都是以HTML，CSS，JS为基础的。所谓的客户端都是网页，并没有多强的离线功能，更别提下载某一个页面。与系统的整合很差。没有单独的页面快捷入口，比起Todoist和印象笔记存在较大的稳定问题。</p>
+<p>如果网络环境不好，要做好不能够随时访问重要信息的准备！</p>
+<p>所以我会有一个Tag叫Save to Evernote来手动将重要的信息保存到印象笔记并且离线下来，遇到任务也会先放到Todoist中，等能连上网的时候再同步。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://www.notion.so/imchenmin/Notion-d7b4ef1b46aa4ef7b73dc3fb25d5a2d1">https://www.notion.so/imchenmin/Notion-d7b4ef1b46aa4ef7b73dc3fb25d5a2d1</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/" data-id="clnhnlj2x001azox1ewpm60w0" data-title="以Notion为基础的自我管理体系" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/23/%E4%BD%BF%E7%94%A8Python%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BD%93%E9%AA%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          使用Python开发桌面应用的一个体验
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/23/Ubuntu-18-04%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE%E5%92%8C%E9%81%87%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E5%8D%A1%E9%97%AE%E9%A2%98/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASR/" rel="tag">ASR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coursera/" rel="tag">Coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaldi/" rel="tag">Kaldi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Leet-Code/" rel="tag">Leet Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Numpy/" rel="tag">Numpy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Postgres/" rel="tag">Postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/" rel="tag">编程记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" rel="tag">软件测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%85%E8%AF%BB%E6%97%A5%E6%8A%A5/" rel="tag">阅读日报</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ASR/" style="font-size: 13.33px;">ASR</a> <a href="/tags/Coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Kaldi/" style="font-size: 13.33px;">Kaldi</a> <a href="/tags/Leet-Code/" style="font-size: 10px;">Leet Code</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Postgres/" style="font-size: 10px;">Postgres</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 13.33px;">个人</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" style="font-size: 10px;">知识管理</a> <a href="/tags/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">编程记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">软件测试</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a> <a href="/tags/%E9%98%85%E8%AF%BB%E6%97%A5%E6%8A%A5/" style="font-size: 10px;">阅读日报</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/23/LeetCode26/">LeetCode26</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E5%AD%A6%E4%B9%A0Kaldi%EF%BC%9A%E4%B8%AD%E6%96%87Aishell%E9%A1%B9%E7%9B%AE%EF%BC%88%E4%B8%8A%EF%BC%89/">学习Kaldi：中文Aishell项目（上）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E4%BD%BF%E7%94%A8Python%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BD%93%E9%AA%8C/">使用Python开发桌面应用的一个体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/">以Notion为基础的自我管理体系</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/Ubuntu-18-04%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE%E5%92%8C%E9%81%87%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E5%8D%A1%E9%97%AE%E9%A2%98/">Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>使用Python开发桌面应用的一个体验 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="我的主力编程语言现在是Python，平时也会使用Python写一些小脚本做文件处理（更简单一些的操作会直接用Shell命令）。基本不会接触到GUI界面的编写。但是呢，对于我而言命令行是可行的方案，但是如果要把代码交给没有编程基础的人，并且没有相关的开发环境时。就需要GUI和打包技术了。最近就遇到一个情况需要开发一个类似图片直方图均衡的功能给和课题组合作的医生使用，工作的电脑是离线的，医生没有编程基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python开发桌面应用的一个体验">
+<meta property="og:url" content="http://example.com/2020/11/23/%E4%BD%BF%E7%94%A8Python%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BD%93%E9%AA%8C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我的主力编程语言现在是Python，平时也会使用Python写一些小脚本做文件处理（更简单一些的操作会直接用Shell命令）。基本不会接触到GUI界面的编写。但是呢，对于我而言命令行是可行的方案，但是如果要把代码交给没有编程基础的人，并且没有相关的开发环境时。就需要GUI和打包技术了。最近就遇到一个情况需要开发一个类似图片直方图均衡的功能给和课题组合作的医生使用，工作的电脑是离线的，医生没有编程基">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/1240.png">
+<meta property="og:image" content="http://example.com/images/1241.png">
+<meta property="og:image" content="http://example.com/images/1242.png">
+<meta property="og:image" content="http://example.com/images/1243.png">
+<meta property="og:image" content="http://example.com/images/1244.png">
+<meta property="og:image" content="http://example.com/images/1245.png">
+<meta property="article:published_time" content="2020-11-23T11:36:00.000Z">
+<meta property="article:modified_time" content="2020-11-28T16:22:19.900Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/1240.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-使用Python开发桌面应用的一个体验" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/23/%E4%BD%BF%E7%94%A8Python%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BD%93%E9%AA%8C/" class="article-date">
+  <time class="dt-published" datetime="2020-11-23T11:36:00.000Z" itemprop="datePublished">2020-11-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      使用Python开发桌面应用的一个体验
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>我的主力编程语言现在是Python，平时也会使用Python写一些小脚本做文件处理（更简单一些的操作会直接用Shell命令）。基本不会接触到GUI界面的编写。但是呢，对于我而言命令行是可行的方案，但是如果要把代码交给没有编程基础的人，并且没有相关的开发环境时。就需要GUI和打包技术了。最近就遇到一个情况需要开发一个类似图片直方图均衡的功能给和课题组合作的医生使用，工作的电脑是离线的，医生没有编程基础。</p>
+<p>要求条件：</p>
+<ol>
+<li><p>使用Python，快捷开发；</p>
+</li>
+<li><p>GUI；</p>
+</li>
+<li><p>独立的EXE可执行文件。</p>
+</li>
+</ol>
+<p>技术栈：</p>
+<ol>
+<li><p>Numpy，用于对像素数组进行映射；</p>
+</li>
+<li><p>Pillow，图像库，底层调用numpy；</p>
+</li>
+<li><p>TkinterDND2使用Python内置的Tkinter的改进版，支持基础的code based UI和文件拖拽功能。使用conda安装。</p>
+</li>
+</ol>
+<p>我的开发环境是OS X，幸好之前一个老师分配的Windows虚拟机还能用。Python环境3.7.3。</p>
+<h2 id="第一版"><a href="#第一版" class="headerlink" title="第一版"></a>第一版</h2><p><img src="/images/1240.png" alt="image.png"> </p>
+<p>支持选取图片文件夹，递归查找其中的jpg文件并处理。</p>
+<h3 id="文件夹选取功能"><a href="#文件夹选取功能" class="headerlink" title="文件夹选取功能"></a>文件夹选取功能</h3><h3 id=""><a href="#" class="headerlink" title=""></a><strong><img src="/images/1241.png" alt="image.png"></strong></h3><h3 id="图片处理函数"><a href="#图片处理函数" class="headerlink" title="图片处理函数"></a>图片处理函数</h3><h3 id="-1"><a href="#-1" class="headerlink" title=""></a><strong><img src="/images/1242.png" alt="image.png"></strong></h3><p>简单的对图片像素映射到0-255的范围。能够使得标本图片更容易标注。</p>
+<h3 id="恢复函数"><a href="#恢复函数" class="headerlink" title="恢复函数"></a>恢复函数</h3><h3 id="-2"><a href="#-2" class="headerlink" title=""></a><strong><img src="/images/1243.png" alt="image.png"></strong></h3><p>相当于图片处理函数的逆操作，在图片处理的时候保存了每一张图片的处理参数。</p>
+<h3 id="性能分析："><a href="#性能分析：" class="headerlink" title="性能分析："></a>性能分析：</h3><h3 id="-3"><a href="#-3" class="headerlink" title=""></a><strong><img src="/images/1244.png" alt="image.png"></strong></h3><p>因为一个标本采集的图片有接近2000张，测试时预估大约需要8分钟才能完成一个标本的图片优化。而费</p>
+<p>使用cProfile进行性能分析，61张图片要18秒多。平均一秒3张图片。主要的时间消耗是在转换成numpy矩阵、保存图片和图片处理函数。基本是不能够再优化的。那么就要从数据量方面考虑，是否每一张图片都需要优化并标注？其实不是的，每一个标本只需要选取最多10张进行标注，那么由医生选取并且拖放到指定界面会更快捷。</p>
+<h2 id="第二版"><a href="#第二版" class="headerlink" title="第二版"></a>第二版</h2><h2 id="-4"><a href="#-4" class="headerlink" title=""></a><strong><img src="/images/1245.png" alt="image.png"></strong></h2><p>第二版添加了拖放功能并且把文件夹选取的功能去掉了。可以拖放多个文件，并且会筛选处理其中的jpg文件。</p>
+<p>PS: 连标题都懒得改。。</p>
+<h2 id="pyinstaller打包"><a href="#pyinstaller打包" class="headerlink" title="pyinstaller打包"></a>pyinstaller打包</h2><p>使用pip 安装pyinstaller打包，pyinstaller是系统依赖的，在什么系统打包，在什么系统使用。坑很多。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用pyinstaller遇到几个bug。six，warm</p>
+<p>打包太大了。有500MB。代码量180行。</p>
+<p>加了Frame之后文件夹输入框就不更新了。可能的原因是pack和grid在frame和widge之间混用。或者混用Tkinter和TkinterDnD2。因为文件夹选取的方案被替换掉了。所以这个bug不再存在。</p>
+<p>conda环境安装耗时较久。</p>
+<p>还是java香。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/11/23/%E4%BD%BF%E7%94%A8Python%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BD%93%E9%AA%8C/" data-id="clnhnlj2p000zzox16bmk4ybq" data-title="使用Python开发桌面应用的一个体验" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/23/%E5%AD%A6%E4%B9%A0Kaldi%EF%BC%9A%E4%B8%AD%E6%96%87Aishell%E9%A1%B9%E7%9B%AE%EF%BC%88%E4%B8%8A%EF%BC%89/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          学习Kaldi：中文Aishell项目（上）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">以Notion为基础的自我管理体系</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASR/" rel="tag">ASR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coursera/" rel="tag">Coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaldi/" rel="tag">Kaldi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Leet-Code/" rel="tag">Leet Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Numpy/" rel="tag">Numpy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Postgres/" rel="tag">Postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/" rel="tag">编程记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" rel="tag">软件测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%85%E8%AF%BB%E6%97%A5%E6%8A%A5/" rel="tag">阅读日报</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ASR/" style="font-size: 13.33px;">ASR</a> <a href="/tags/Coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Kaldi/" style="font-size: 13.33px;">Kaldi</a> <a href="/tags/Leet-Code/" style="font-size: 10px;">Leet Code</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Postgres/" style="font-size: 10px;">Postgres</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 13.33px;">个人</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" style="font-size: 10px;">知识管理</a> <a href="/tags/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">编程记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">软件测试</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a> <a href="/tags/%E9%98%85%E8%AF%BB%E6%97%A5%E6%8A%A5/" style="font-size: 10px;">阅读日报</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/23/LeetCode26/">LeetCode26</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E5%AD%A6%E4%B9%A0Kaldi%EF%BC%9A%E4%B8%AD%E6%96%87Aishell%E9%A1%B9%E7%9B%AE%EF%BC%88%E4%B8%8A%EF%BC%89/">学习Kaldi：中文Aishell项目（上）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E4%BD%BF%E7%94%A8Python%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BD%93%E9%AA%8C/">使用Python开发桌面应用的一个体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/">以Notion为基础的自我管理体系</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/Ubuntu-18-04%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE%E5%92%8C%E9%81%87%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E5%8D%A1%E9%97%AE%E9%A2%98/">Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

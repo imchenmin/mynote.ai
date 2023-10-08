@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="帮同学的实验室配置静态IP，将其中的流程和关键记录下来。 校园网内使用DHCP来分配IP地址，有效期为2天，如果两天之内设备未续租，IP地址会被收回。 实验室的服务器需要远程登陆，需要一个静态IP来保证服务器的可访问性。 在申请了几个静态IP之后，会获得一组数据。1) 172.xxx.xxx.xxx、2) 255.255.255.0、3) 172.xxx.xxx.254、4) vlanxx。其中1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题">
+<meta property="og:url" content="http://example.com/2020/11/23/Ubuntu-18-04%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE%E5%92%8C%E9%81%87%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E5%8D%A1%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="帮同学的实验室配置静态IP，将其中的流程和关键记录下来。 校园网内使用DHCP来分配IP地址，有效期为2天，如果两天之内设备未续租，IP地址会被收回。 实验室的服务器需要远程登陆，需要一个静态IP来保证服务器的可访问性。 在申请了几个静态IP之后，会获得一组数据。1) 172.xxx.xxx.xxx、2) 255.255.255.0、3) 172.xxx.xxx.254、4) vlanxx。其中1">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-23T11:34:17.000Z">
+<meta property="article:modified_time" content="2020-11-28T16:24:16.940Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Ubuntu-18-04静态IP设置和遇到的虚拟机网卡问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2020/11/23/Ubuntu-18-04%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE%E5%92%8C%E9%81%87%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E5%8D%A1%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2020-11-23T11:34:17.000Z" itemprop="datePublished">2020-11-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>帮同学的实验室配置静态IP，将其中的流程和关键记录下来。</p>
+<p>校园网内使用DHCP来分配IP地址，有效期为2天，如果两天之内设备未续租，IP地址会被收回。</p>
+<p>实验室的服务器需要远程登陆，需要一个静态IP来保证服务器的可访问性。</p>
+<p>在申请了几个静态IP之后，会获得一组数据。1) 172.xxx.xxx.xxx、2) 255.255.255.0、3) 172.xxx.xxx.254、4) vlanxx。其中1）是静态IP的地址，2）是子网掩码，也可以用24表示。3）网关地址，4）交换机的vlan接口，由交换机管理员配置。</p>
+<p>学校中由网络中心运营管理交换机，需要先联系工程师在网关中添加vlanxx接口，并且把服务器的所有MAC地址绑定静态IP地址组。</p>
+<p>服务器的操作系统和版本是Ubuntu 18.04 server。网络管理使用netplan。之前同学装了gnome-shell。我先尝试使用简易桌面自带的网络管理程序，ifconfig -a发现对网卡配置不起作用。</p>
+<p>直接修改netplan程序位于\etc\netplan\01-netcfg.yaml。</p>
+<p>当时该文件基本的结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">network:</span><br><span class="line">  version: 2</span><br><span class="line">  renderer: networkd</span><br><span class="line">  ethernets:</span><br><span class="line">    eno1:</span><br><span class="line">      dhcp4: true</span><br><span class="line">  bridges:</span><br><span class="line">    vir0br:</span><br><span class="line">      interfaces: [eno1]</span><br><span class="line">      dhcp4: true</span><br></pre></td></tr></table></figure>
+<p>需要注意的就是eno1和vir0br。其中dhcp4代表着是否使用ipv4版本的dhcp地址分配。</p>
+<p>vir0br是<a target="_blank" rel="noopener" href="https://virt-manager.org/">https://virt-manager.org/</a>虚拟机管理器NAT模式下的网桥接口。服务器中通过virt-manager运行着windows 系统。</p>
+<p>配置静态ip需要修改eno1的配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">eno1:</span><br><span class="line">  dhcp4: no</span><br><span class="line">  addresses: [172.xxx.xxx.xxx/24]</span><br><span class="line">  gateway4: 172.xxx.xxx.254</span><br><span class="line">  nameservers:</span><br><span class="line">    addresses: [8.8.8.8, 8.8.4.4]</span><br></pre></td></tr></table></figure>
+<p>然后netplan apply。接着ifconfig -a 查看网卡ip是否更改，如果没有更改，不用着急。很可能是配置文件的问题。而不是需要重启或者sudo service networking restart重启网卡。</p>
+<p>需要注意的是这里有一个bridge。bridge是一个虚拟网络设备，具有网络设备的特征，可以配置IP，MAC地址等。bridge不分接入进来的设备是虚拟的还是物理的，当eno1加入vir0br之后，从外面网络收到的数据包将无条件的转发给vir0br，自己变成一根网线。先用brctl show查看网桥状态然后.ifconfig &lt;网桥名&gt; down, brctl delbr &lt;网桥名&gt;删除网桥，将01-netcf.yaml中的bridge 部分删掉。（但是会造成虚拟机网络异常）。 重新netplan apply，完成静态IP的配置。</p>
+<p>对于windows虚拟机的网络配置还在检索学习中。网上较少Linux寄主机，Windows虚拟机的配置情况。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/11/23/Ubuntu-18-04%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE%E5%92%8C%E9%81%87%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E5%8D%A1%E9%97%AE%E9%A2%98/" data-id="clnhnlj1x000ozox1elj35avu" data-title="Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          以Notion为基础的自我管理体系
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/22/OpenCV%E5%92%8Cnumpy%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">OpenCV和numpy笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ASR/" rel="tag">ASR</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Coursera/" rel="tag">Coursera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kaldi/" rel="tag">Kaldi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Leet-Code/" rel="tag">Leet Code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Machine-Learning/" rel="tag">Machine Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Numpy/" rel="tag">Numpy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/" rel="tag">OpenCV</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Postgres/" rel="tag">Postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA/" rel="tag">个人</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" rel="tag">知识管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/" rel="tag">编程记录</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" rel="tag">软件测试</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag">运维</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%98%85%E8%AF%BB%E6%97%A5%E6%8A%A5/" rel="tag">阅读日报</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ASR/" style="font-size: 13.33px;">ASR</a> <a href="/tags/Coursera/" style="font-size: 10px;">Coursera</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Kaldi/" style="font-size: 13.33px;">Kaldi</a> <a href="/tags/Leet-Code/" style="font-size: 10px;">Leet Code</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/Machine-Learning/" style="font-size: 10px;">Machine Learning</a> <a href="/tags/Numpy/" style="font-size: 10px;">Numpy</a> <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Postgres/" style="font-size: 10px;">Postgres</a> <a href="/tags/Python/" style="font-size: 20px;">Python</a> <a href="/tags/%E4%B8%AA%E4%BA%BA/" style="font-size: 13.33px;">个人</a> <a href="/tags/%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86/" style="font-size: 10px;">知识管理</a> <a href="/tags/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/" style="font-size: 10px;">编程记录</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">计算机网络</a> <a href="/tags/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/" style="font-size: 10px;">软件测试</a> <a href="/tags/%E8%BF%90%E7%BB%B4/" style="font-size: 10px;">运维</a> <a href="/tags/%E9%98%85%E8%AF%BB%E6%97%A5%E6%8A%A5/" style="font-size: 10px;">阅读日报</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/23/LeetCode26/">LeetCode26</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E5%AD%A6%E4%B9%A0Kaldi%EF%BC%9A%E4%B8%AD%E6%96%87Aishell%E9%A1%B9%E7%9B%AE%EF%BC%88%E4%B8%8A%EF%BC%89/">学习Kaldi：中文Aishell项目（上）</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E4%BD%BF%E7%94%A8Python%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BD%93%E9%AA%8C/">使用Python开发桌面应用的一个体验</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E4%BB%A5Notion%E4%B8%BA%E5%9F%BA%E7%A1%80%E7%9A%84%E8%87%AA%E6%88%91%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB/">以Notion为基础的自我管理体系</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/Ubuntu-18-04%E9%9D%99%E6%80%81IP%E8%AE%BE%E7%BD%AE%E5%92%8C%E9%81%87%E5%88%B0%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E5%8D%A1%E9%97%AE%E9%A2%98/">Ubuntu 18.04静态IP设置和遇到的虚拟机网卡问题</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2023 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
