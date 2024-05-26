@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang=zh-cn>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="陈闽博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="陈闽博客">
+    <meta name="keyword"  content="hexo,陈闽博客,陈闽,全栈开发,mynote">
+    <link rel="shortcut icon" href="/images/mynoteai.ico">
+
+    <title>
+        
+        用ASAN平台构建质量防护网 - MyNote.ai
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 我的AI笔记 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/images/mynote.png" />
+        </div>
+        <div class="name">
+            <i>Chen Min</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>홈</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>태그</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>아카이브</span>
+                </a>
+            </li>
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>모으다</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>about</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>검색</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">검색</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 我的AI笔记 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        用ASAN平台构建质量防护网
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">등록시간：<span>2024-05-26 15:54:01</span></span>
+        
+        <span class="attr">태그：/
+        
+        <a class="tag" href="/tags/#工作" title="工作">工作</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">방문：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>在处理C&#x2F;C++等低级编程语言时，内存泄漏是一个难以避免的挑战。我们常见的问题如数组越界、栈溢出、重复释放（double free）和堆溢出等情况层出不穷。得益于C语言的高效率，它至今仍是绝大多数嵌入式设备的运行基石。内存泄漏的后果可能非常严重，从程序崩溃到对嵌入式设备失去控制不一而足。更加难以追溯的是，内存泄漏可能导致程序在运行一段时间后出现异常行为，这被称为内存踩踏。定位内存踩踏问题非常困难，常需结合coredump文件分析和代码审查，耗费大量时间。</p>
+<p>为了拦截内存泄漏问题，通常成熟的公司里有多重防线：包括开发阶段的自我验证、代码提交前的检查（code check）、单元测试和代码审阅，以及交由测试人员进行的针对性测试。与可以在线升级的互联网产品不同，嵌入式设备的软件更新升级过程需要更多资源和严格验证。</p>
+<p>从减少内存泄漏的角度看，提高开发人员的编码规范意识和更细致的代码审查是人为层面的努力方向。而从流程和工具的角度，则可以引入严格而有效的自动化检查工具。例如，内存地址消毒器（AddressSanitizer）就是一个在开发测试阶段揭示内存错误的有力工具。它能发现一系列复杂的内存问题，如数组越界和多线程竞争等，尽管这可能会导致一定的运行时性能损失和资源占用。但相比之下，它带来的软件质量提升更为显著。</p>
+<p>现在假设我们有了编译携带ASAN的版本，并且在公司内部所有开发测试环境都运行着它。ASAN会在发生内存错误的时候（尽可能）打印出调用栈信息和发生问题的内存区块信息。默认会停止程序的运行（但是在实践中开发测试人员通常会设置ASAN_OPTIONS使得程序继续正常运行）。没有多少人会去有意识地查看是否有ASAN报告发生。在大型的软件团队内，角色分工明确，责任田明晰，可能有大量的测试环境供工程师们使用。那么这些ASAN报告就分散在不同的机器上。需要一定的训练才能理解（例如什么是全局缓冲区溢出global-buffer-overflow，什么是mmap）。这大大增加了将报告转化为问题单的难度。</p>
+<p>我曾经因为写了一段低级的代码导致内存泄漏。这次经历让我认识到了问题的严重性，并在之后找到并引入ASAN这个工具到我们的团队中以提高代码质量。然而，我发现尽管这个工具很有用，大多数团队成员却对它不够重视或根本不知道它的存在。因此，一种将所有ASAN日志集中在一处、易于访问和理解的方案开始在我脑海中形成。为了实现这一点，我和一位小伙伴开始着手开发这样一个平台。</p>
+<p>具体来说，这个平台不仅集中了所有的ASAN日志，还能根据业务领域将问题分配给责任人，确保各个问题都能被有效追踪到个人。该平台对相似的问题进行去重，记录了每个问题的类型和解决状态，极大地方便了问题的跟踪工作。技术栈上包括使用bash脚本定期上传日志文件至服务器、利用Python Flask搭建的Web服务器以及通过Streamlit创建的状态监控网页。</p>
+<p>这类的工作是know how的工作，知道如何在docker镜像中添加运行时需要的依赖，知道在哪里能够打桩上传脚本，知道如何对ASAN日志文件进行模式匹配从而提取出定位所需的最小信息。。这类的工作最开始的时候是一次做一个功能，做完了之后得到反馈和需求，再去优化。没想到最终成了一个质量防护网的创新。能给公司减少一些问题定位时的人力消耗，并且减少问题泄漏到生产环境的风险。</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>
