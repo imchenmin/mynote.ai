@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang=zh-cn>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="陈闽博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="陈闽博客">
+    <meta name="keyword"  content="hexo,陈闽博客,陈闽,全栈开发,mynote">
+    <link rel="shortcut icon" href="/images/mynoteai.ico">
+
+    <title>
+        
+        重建博客 - MyNote.ai
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 我的AI笔记 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/images/mynote.png" />
+        </div>
+        <div class="name">
+            <i>Chen Min</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>COLLECT</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 我的AI笔记 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        重建博客
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2024-05-26 16:01:25</span></span>
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>GDB是开发时的利器。通过它，可以在逐步的观察每一行代码的执行，也可以动态改变代码的执行分支。</p>
+<p>人们通常会希望有一些gdb的命令能够实现自己特殊的需求，而不用修改源码重新编译。gdb原生支持的命令与bash一样简洁。但是它的文件操作、解析复杂对象的能力不足。</p>
+<p>这时可以用GDB的Python API来扩展GDB的能力。Python API是GDB开放给用户扩展GDB功能和自动化调试任务的接口。通过 Python API，用户可以编写脚本来执行复杂的调试任务，比如自定义命令、创建新的调试命令、定义新的数据类型和变量的显示方式（pretty printers），以及访问 GDB 的内部数据结构等。</p>
+<p>以每次执行到某个函数的时候保存json字符串到文件为例:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Cpp源码 test.cpp</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">foo</span><span class="params">(std::string str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">foo</span>(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># script.py</span></span><br><span class="line"><span class="keyword">import</span> gdb</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_string_param</span>(<span class="params">string_param, filename=<span class="string">&quot;b.json&quot;</span></span>):</span><br><span class="line">    <span class="comment"># 获取字符串的实际内容</span></span><br><span class="line">    <span class="comment"># std::string 的内部存储需要通过_gdb_value取出</span></span><br><span class="line">    char_ptr = string_param[<span class="string">&#x27;_M_dataplus&#x27;</span>][<span class="string">&#x27;_M_p&#x27;</span>]</span><br><span class="line">    string_value = char_ptr.string()</span><br><span class="line">    <span class="comment"># 将字符串保存到JSON文件</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&quot;w&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        json.dump(f, string_value)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SaveStringParamBreakpoint</span>(gdb.Breakpoint):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, function_name</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(function_name, gdb.BP_BREAKPOINT)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">stop</span>(<span class="params">self</span>):</span><br><span class="line">        frame = gdb.selected_frame()</span><br><span class="line">        block = frame.block()</span><br><span class="line">        <span class="comment"># 查找目标参数</span></span><br><span class="line">        param = frame.read_var(<span class="string">&#x27;str&#x27;</span>)</span><br><span class="line">        save_string_param(param)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span>  <span class="comment"># 继续执行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置断点 (替换 &quot;foo&quot; 和参数索引)</span></span><br><span class="line">SaveStringParamBreakpoint(<span class="string">&quot;foo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>编译:  g++ -g test.cpp -o test</p>
+<p>调试: gdb test -x script.py  进入程序后键入r即可开始执行程序。</p>
+<p>attach到执行中的程序：gdb attach pid -x script.py</p>
+<p>编写GDB Python API需要了解的关键概念</p>
+<ul>
+<li>Inferior（被调试程序）: GDB调试的对象，即你正在调试的程序。在Python API中，通过gdb.inferiors()获取inferior列表，并使用gdb.selected_inferior()获取当前选中的inferior。</li>
+<li>Frame（栈帧）: 程序运行时的函数调用会形成一个栈帧，记录了函数的参数、局部变量、返回地址等信息。GDB Python API提供了gdb.newest_frame()、gdb.selected_frame()等函数，可以访问和操作栈帧。</li>
+<li>Thread（线程）: 程序中并发执行的单元。在Python API中，通过gdb.selected_thread()获取当前线程，并使用gdb.inferiors()[0].threads()获取inferior的所有线程。</li>
+<li>Breakpoint（断点）: 程序中预先设置的停止点。当程序执行到断点时，GDB会暂停程序，可以检查程序的状态。Python API提供了gdb.Breakpoint()函数来设置断点，以及gdb.breakpoints()函数来获取所有断点。</li>
+<li>Command（命令）: GDB的命令，例如print、next、continue等。通过gdb.execute()函数在Python脚本中执行GDB命令。</li>
+<li>Parameter（参数）: 函数的参数。在GDB Python API中，通过gdb.selected_frame().read_var()函数读取栈帧中的参数值。</li>
+<li>Value（值）: 变量或表达式的值。通过gdb.parse_and_eval()函数解析表达式并获取其值。</li>
+<li>Symbol（符号）: 程序中的函数、变量、类型等。通过gdb.lookup_global_symbol()函数查找全局符号，并使用gdb.lookup_symbol()函数查找局部符号。</li>
+<li>Type（类型）: 变量或表达式的类型。通过gdb.lookup_type()函数查找类型。</li>
+<li>Architecture（架构）: 程序运行的处理器架构，例如x86、ARM等。通过gdb.selected_inferior().architecture()函数获取架构信息。<br>相关资料：<a target="_blank" rel="noopener" href="https://sourceware.org/gdb/current/onlinedocs/gdb.html/Python-API.html%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89gdb%E5%91%BD%E4%BB%A4%E7%9A%84Python%E5%AE%9E%E7%8E%B0_python">https://sourceware.org/gdb/current/onlinedocs/gdb.html/Python-API.html用户自定义gdb命令的Python实现_python</a> gdb arm-CSDN博客</li>
+</ul>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>
