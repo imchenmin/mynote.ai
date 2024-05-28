@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang=zh-cn>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="陈闽博客">
+    <meta property="og:type" content="website">
+    <meta name="description" content="陈闽博客">
+    <meta name="keyword"  content="hexo,陈闽博客,陈闽,全栈开发,mynote">
+    <link rel="shortcut icon" href="/images/mynoteai.ico">
+
+    <title>
+        
+        AI Code Review | AI 代码检视调研 - MyNote.ai
+        
+    </title>
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/aircloud.css">
+
+    
+<link rel="stylesheet" href="/css/gitment.css">
+
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_28hi1hpxx24.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    
+
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 我的AI笔记 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/images/mynote.png" />
+        </div>
+        <div class="name">
+            <i>Chen Min</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>TAGS</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>ARCHIVES</span>
+                </a>
+            </li>
+            <li >
+                <a href="/collect/">
+                    <i class="iconfont icon-shoucang1"></i>
+                    <span>COLLECT</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>SEARCH</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE"><span class="toc-text">相关开源项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#codium-pr-agent"><span class="toc-text">codium&#x2F;pr-agent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#coderabbitai-ai-pr-reviewer"><span class="toc-text">coderabbitai&#x2F;ai-pr-reviewer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-text">场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E5%89%8D%E6%A1%86%E6%9E%B6%E7%9A%84%E7%BC%BA%E7%82%B9%E4%BB%A5%E5%8F%8A%E7%90%86%E6%83%B3%E7%9A%84Code-Review-Agent%E9%95%BF%E4%BB%80%E4%B9%88%E6%A0%B7%E5%AD%90"><span class="toc-text">当前框架的缺点以及理想的Code Review Agent长什么样子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE%EF%BC%9A"><span class="toc-text">实践建议：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E"><span class="toc-text">声明</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-bg" id="search-bg"></div>
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">search</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> 我的AI笔记 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        AI Code Review | AI 代码检视调研
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">Post：<span>2024-05-27 09:00:00</span></span>
+        
+        </span>
+        <span class="attr">Visit：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <p>代码审查是除了代码作者之外，其他人检查代码的过程。代码检视是软件开发中的一个基本活动。软件开发大部分时候是团队行为。通过代码入库时的代码检视，开发看护同一块代码领域的团队成员可以相互学习，达到知识共享的效果。不仅如此，代码检视还可以尽早暴露问题，降低问题的修复成本。写代码的人通常会陷入到自己的逻辑中，很难跳出自己的逻辑去思考代码是否正确的实现了需求（所谓happy path）。借他人的视角来审查自己的代码，则充分的体现了“三个臭皮匠，顶个诸葛亮”的群策群力的精神。<br>然而在实际情况下，代码检视一直存在着几个难以忽视的问题。首先，当开发任务重，每个人都有着交付压力，是否有额外的精力去检视其它团队成员的代码？其次一个合并请求（Merge Rquest，MR）中可能不规范地带入了多笔改动，检视起来就更加复杂了。最后是进行代码检视的方式主流还是MR作者逐行地读代码，不仅时间冗长需要更强的注意力，而且其它人对代码的开发逻辑还没有一个全局的认识。</p>
+<p>需要注意的是，代码检视主要不是进行代码规范（code check），而是在流水线自动code check后对更复杂逻辑的检查。</p>
+<p>在这个大语言模型应用普遍爆发的2024年。如何将代码检视用大语言模型来自动化是一个很热门的落地场景。以下汇总三个开源AI代码检视仓库的内容，结合自己的调研应用，给出一个Code Review的个人理解。</p>
+<h2 id="相关开源项目"><a href="#相关开源项目" class="headerlink" title="相关开源项目"></a>相关开源项目</h2><p>下面解释两个项目：codium和coderrabbit。它们都不约而同地走了从开源到闭源商业化的路线。</p>
+<h3 id="codium-pr-agent"><a href="#codium-pr-agent" class="headerlink" title="codium&#x2F;pr-agent"></a>codium&#x2F;pr-agent</h3><p>编写语言为python。工程化做得非常完善。下面是一个pr-agent在github中的示例。<br><img src="/images/640.webp" alt="demo"></p>
+<p><img src="/images/641.webp" alt="demo"></p>
+<p>代码中的主要逻辑有：</p>
+<p>llm handler，git provider, secret. provider, agent和server</p>
+<ol>
+<li>llm handler，用于和各种llm后端通信，默认使用litellm。支持ollama等本地部署。核心是调用completion的api。</li>
+<li>git provider主要用来从代码仓中提取出MR相关的信息，例如diff patch， title，description。支持github、gitlab和本地git仓库。</li>
+<li>secret provider，配置管理。几乎所有的配置都通过secret.toml和configuration.toml进行配置。</li>
+<li>action&#x2F;command，是重点，相当于一系列的行为。例如对整个MR进行检视的review，对MR进行对话聊天的ask，代码提升的improve。每一个command共享从git provider获得基础信息的能力，差别在于prompt的不同，有的command会多一些tool，例如generate_label</li>
+<li>server. 多个代码仓底座服务程序。例如gitlab用flask搭建webhook，分发路由请求到PR Agent再解析命令到具体的command。</li>
+</ol>
+<p>commands行为：</p>
+<p><img src="/images/command.webp" alt="demo"></p>
+<p>使用指南：</p>
+<p><img src="/images/guideline.webp" alt="demo"></p>
+<p>pr-agent是无状态无记忆的，不具有向量数据库、本地化仓库特异配置和仓库代码上下文提供的能力。</p>
+<p>但是已经是一个很好的架构了。</p>
+<p>关于其如何拼接提示词可以参考文末的“阅读原文”。</p>
+<h3 id="coderabbitai-ai-pr-reviewer"><a href="#coderabbitai-ai-pr-reviewer" class="headerlink" title="coderabbitai&#x2F;ai-pr-reviewer"></a>coderabbitai&#x2F;ai-pr-reviewer</h3><p>最开始找到的一个代码仓，研究其代码总体上工程化程度有限。review.ts主逻辑文件超过1000行。src只有一层结构。使用type script开发，只支持github action。</p>
+<p>在国内应用有限。国内很多企业会基于gitlab搭建属于自己的一套代码仓应用。</p>
+<p>不再开源，仓库已经归档。</p>
+<p>关于其如何拼接提示词可以参考文末的“阅读原文”。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><ol>
+<li>MR检视<ol>
+<li>判断是否需要检视</li>
+<li>检视需要的努力</li>
+<li>给出检视意见</li>
+</ol>
+</li>
+<li>MR解释<ol>
+<li>基于上下文和MR描述字段，帮助检视人更快了解代码</li>
+<li>针对具体的问题问答</li>
+</ol>
+</li>
+<li>MR修改<ol>
+<li>提出对当前代码的修改，并且新建一个commit等待MR作者合入</li>
+<li>MR 元数据修改（标签、更新日志、描述）</li>
+<li>按照规范进行MR标签、说明描述的添加</li>
+</ol>
+</li>
+</ol>
+<h3 id="当前框架的缺点以及理想的Code-Review-Agent长什么样子"><a href="#当前框架的缺点以及理想的Code-Review-Agent长什么样子" class="headerlink" title="当前框架的缺点以及理想的Code Review Agent长什么样子"></a>当前框架的缺点以及理想的Code Review Agent长什么样子</h3><p>给出的建议需要和业务背景有机结合起来，也需要与需求链路关联起来。例如这次MR的来源是需求还是bugfix？<br>当MR超大并且包含多个需求、bug时。可以让ai给出不推荐合入的建议。反推提交者将一个大的需求合入拆分成不同独立的部分合入。<br>Code Review Agent不能替代CodeCheck等质量管理工具，两者应该互相补充。<br>Code Review Agent需要具有定向访问代码仓并多轮思考的能力。例如MR源于某个需求，涉及到10个函数，需要它评价哪些函数的改动是会影响业务逻辑的，并且判断和需求要求的是否一致。这样的能力势必需要获得某个代码段所有的上下文。个人认为如果程序解析成华为CoderEval格式，会是一个更全能的Code Review Copilot。</p>
+<h3 id="实践建议："><a href="#实践建议：" class="headerlink" title="实践建议："></a>实践建议：</h3><ol>
+<li>累积真实业务中问题的样例<ol>
+<li>小样本即时学习。</li>
+</ol>
+</li>
+<li>基础大模型智能至关重要<ol>
+<li>gpt4最优</li>
+<li>kimi，gemini其次</li>
+<li>llama3 70b本地部署也可以</li>
+<li>codellama34b指令遵从有些限制</li>
+</ol>
+</li>
+</ol>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>本文仅代表个人观点，欢迎友善讨论。<br>本文参考链接：<a target="_blank" rel="noopener" href="https://workflowy.com/s/ai/CrBeNEMF3Eet0NU7">https://workflowy.com/s/ai/CrBeNEMF3Eet0NU7</a> 动态更新.</p>
+
+        
+        <br />
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+        <div id="lv-container"></div>
+        <div class="giscus"></div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+
+        
+
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>  Theme <a target="_blank" rel="noopener" href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.json"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/js/index.js"></script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+</html>
